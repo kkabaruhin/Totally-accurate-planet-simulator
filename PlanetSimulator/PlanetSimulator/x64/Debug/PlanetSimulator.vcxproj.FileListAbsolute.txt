@@ -1,0 +1,6 @@
+E:\Dropbox\Нужные файлы\Учебное программирование\Totally accurate planet simulator\PlanetSimulator\PlanetSimulator\x64\Debug\PlanetSimulator.vcxproj.AssemblyReference.cache
+E:\Dropbox\Нужные файлы\Учебное программирование\Totally accurate planet simulator\PlanetSimulator\PlanetSimulator\x64\Debug\PlanetSimulator.MyForm.resources
+E:\Dropbox\Нужные файлы\Учебное программирование\Totally accurate planet simulator\PlanetSimulator\PlanetSimulator\x64\Debug\PlanetSimulator.vcxproj.GenerateResource.cache
+C:\Users\Кирилл\Dropbox\Нужные файлы\Учебное программирование\Totally accurate planet simulator\PlanetSimulator\PlanetSimulator\x64\Debug\PlanetSimulator.vcxproj.AssemblyReference.cache
+C:\Users\Кирилл\Dropbox\Нужные файлы\Учебное программирование\Totally accurate planet simulator\PlanetSimulator\PlanetSimulator\x64\Debug\PlanetSimulator.MyForm.resources
+C:\Users\Кирилл\Dropbox\Нужные файлы\Учебное программирование\Totally accurate planet simulator\PlanetSimulator\PlanetSimulator\x64\Debug\PlanetSimulator.vcxproj.GenerateResource.cache
