@@ -1,1 +1,11 @@
-﻿  PlanetSimulator.vcxproj -> E:\Dropbox\Нужные файлы\Учебное программирование\Totally accurate planet simulator\PlanetSimulator\x64\Debug\PlanetSimulator.exe
+﻿  imagineGenerator.cpp
+E:\PlanetSimulator\imagineGenerator.cpp(27,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+E:\PlanetSimulator\imagineGenerator.cpp(28,19): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+E:\PlanetSimulator\imagineGenerator.cpp(29,18): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  lithospheric_plates.cpp
+  MyForm.cpp
+E:\PlanetSimulator\MyForm.cpp(29,6): warning C4829: Possibly incorrect parameters to function main. Consider 'int main(Platform::Array<Platform::String^>^ argv)'
+  .NETFramework,Version=v4.7.2.AssemblyAttributes.cpp
+  Generating Code...
+  imagineGenerator.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
+  PlanetSimulator.vcxproj -> E:\PlanetSimulator\x64\Debug\PlanetSimulator.exe

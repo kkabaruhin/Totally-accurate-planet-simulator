@@ -21,16 +21,26 @@ private:
 	unsigned long long years;
 	void change_altitude_map();
 public:
+	/*const int altitude_left_red = 212;
+	const int altitude_left_green = 127;
+	const int altitude_left_blue = 16;
+	const int altitude_right_red = 181;
+	const int altitude_right_green = 47;
+	const int altitude_right_blue = 14;*/
+	const int altitude_left_red = 0;
+	const int altitude_left_green = 255;
+	const int altitude_left_blue = 0;
+	const int altitude_right_red = 255;
+	const int altitude_right_green = 0;
+	const int altitude_right_blue = 0;
+	
 	geomap(int new_width, int new_height, int new_count_of_plates, double speed = 1, double level_of_unevenness = 0.5);
 	~geomap();
 	Bitmap^ create_bitmap_of_plates();
-	void do_one_step();
 	Bitmap^ create_bitmap_of_height();
-	double** geomap::get_altitude_map() {
-		double** new_altitude_map;
-		std::copy(altitude_map, altitude_map + width * height, new_altitude_map);
-		return new_altitude_map;
-	}
+	void do_one_step();
+	double** get_copy_altitude_map();
+	System::Drawing::Color get_altitude_color(double altitude);
 	int get_width() {return width;};
 	int get_height() {return height;};
 	double get_min_altitude() {return min_altitude;};

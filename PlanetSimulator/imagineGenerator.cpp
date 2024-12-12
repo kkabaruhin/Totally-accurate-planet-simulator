@@ -13,7 +13,7 @@ const int right_blue = 8;
 
 
 Bitmap^ create_bitmap_of_height( geomap* const  my_geomap) {
-	double** height_map = my_geomap->get_altitude_map();
+	double** height_map = my_geomap->get_copy_altitude_map();
 	int width, height;
 	double min_altitude, max_altitude;
 	min_altitude = my_geomap->get_min_altitude();
