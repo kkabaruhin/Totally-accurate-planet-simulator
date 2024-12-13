@@ -7,3 +7,6 @@ C:\Users\Кирилл\Dropbox\Нужные файлы\Учебное прогр�
 E:\PlanetSimulator\PlanetSimulator\x64\Debug\PlanetSimulator.vcxproj.AssemblyReference.cache
 E:\PlanetSimulator\PlanetSimulator\x64\Debug\PlanetSimulator.MyForm.resources
 E:\PlanetSimulator\PlanetSimulator\x64\Debug\PlanetSimulator.vcxproj.GenerateResource.cache
+E:\Git_reps\Totally-accurate-planet-simulator\PlanetSimulator\PlanetSimulator\x64\Debug\PlanetSimulator.vcxproj.AssemblyReference.cache
+E:\Git_reps\Totally-accurate-planet-simulator\PlanetSimulator\PlanetSimulator\x64\Debug\PlanetSimulator.MyForm.resources
+E:\Git_reps\Totally-accurate-planet-simulator\PlanetSimulator\PlanetSimulator\x64\Debug\PlanetSimulator.vcxproj.GenerateResource.cache

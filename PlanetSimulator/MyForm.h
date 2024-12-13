@@ -4,31 +4,38 @@
 #include <chrono>
 #include <thread>
 #include <windows.h>
+#include <iostream>
+#include <mutex>
+#include <semaphore> 
 
 geomap* my_geomap;
 HANDLE runningThread;
 volatile bool is_running = false;
-bool is_free;
+//bool is_free;
 int years_to_skip;
+std::mutex my_geomap_mutex;
+bool want_to_draw;
+
 
 DWORD WINAPI thread_func(LPVOID lpParameter) {
 	while (is_running) {
 		if (years_to_skip <= 0)
 			break;
-		if (!is_free) {
-			Sleep(9);
-			continue;
-		}
-		is_free = false;
+		if (want_to_draw)
+			Sleep(10);
+		my_geomap_mutex.lock();
+
 		my_geomap->do_one_step();
 		years_to_skip -= 1;
 		
-		is_free = true;
+		my_geomap_mutex.unlock();
 	}
 	is_running = false;
 	ExitThread(0);
 	return 0;
 }
+
+
 
 
 
@@ -355,7 +362,7 @@ namespace PlanetSimulator {
 		int x1, y1, x2, y2; //left top and right lower corners of selected area
 
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
-		is_free = true;
+		//is_free = true;
 		is_running = false;
 		size_of_area = 20;
 		x1 = 0;
@@ -363,6 +370,7 @@ namespace PlanetSimulator {
 		x2 = map_box->Width -1;
 		y2 = map_box->Height -1;
 		years_to_skip = 10;
+		want_to_draw = false;
 	}
 
 	public: System::Void draw_image() {
@@ -370,10 +378,10 @@ namespace PlanetSimulator {
 		if (my_geomap == nullptr)
 			return;
 
-		while (!is_free) {
-			Sleep(1);
-		}
-		is_free = false;
+		//while (!is_free) Sleep(1);
+		//is_free = false;
+		want_to_draw = true;
+		my_geomap_mutex.lock();
 
 		delete map_box->Image;
 		if (platesRadioButton->Checked) {
@@ -394,7 +402,10 @@ namespace PlanetSimulator {
 		}
 		map_box->Image = current_bitmap;
 		count_of_years_label->Text = my_geomap->get_years().ToString() + " years left";
-		is_free = true;
+
+		want_to_draw = false;
+		my_geomap_mutex.unlock();
+		//is_free = true;
 	}
 
 	private: System::Void clear_panel() {
@@ -508,7 +519,7 @@ namespace PlanetSimulator {
 	private: System::Void StopButton_Click(System::Object^ sender, System::EventArgs^ e) {
 		is_running = false;
 		CloseHandle(runningThread);
-		is_free = true;
+		//is_free = true;
 	}
 
 	private: System::Void redraw_button_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -652,9 +663,8 @@ namespace PlanetSimulator {
 		{
 			years_to_skip = Convert::ToInt32(str);
 			is_running = true;
-			is_free = true;
+			//is_free = true;
 			runningThread = CreateThread(NULL, 0, thread_func, NULL, 0, NULL);
-			draw_image();
 		}
 
 	}
