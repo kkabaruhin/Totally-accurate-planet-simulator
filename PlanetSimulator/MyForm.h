@@ -11,7 +11,6 @@
 geomap* my_geomap;
 HANDLE runningThread;
 volatile bool is_running = false;
-//bool is_free;
 int years_to_skip;
 std::mutex my_geomap_mutex;
 bool want_to_draw;
@@ -34,8 +33,6 @@ DWORD WINAPI thread_func(LPVOID lpParameter) {
 	ExitThread(0);
 	return 0;
 }
-
-
 
 
 
@@ -97,11 +94,11 @@ namespace PlanetSimulator {
 	private:
 
 
-	private: System::Windows::Forms::Button^ button1;
+
 	private: System::Windows::Forms::Panel^ panel1;
 	private: System::Windows::Forms::TrackBar^ trackBar1;
 	private: System::Windows::Forms::Label^ label1;
-	private: System::Windows::Forms::Button^ button2;
+
 	private: System::Windows::Forms::TextBox^ countYearsSkipBox1;
 
 	private: System::Windows::Forms::Label^ label2;
@@ -134,11 +131,9 @@ namespace PlanetSimulator {
 			this->altitudeRadioButton = (gcnew System::Windows::Forms::RadioButton());
 			this->platesRadioButton = (gcnew System::Windows::Forms::RadioButton());
 			this->count_of_years_label = (gcnew System::Windows::Forms::Label());
-			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
 			this->trackBar1 = (gcnew System::Windows::Forms::TrackBar());
 			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->countYearsSkipBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->map_box))->BeginInit();
@@ -251,18 +246,6 @@ namespace PlanetSimulator {
 			this->count_of_years_label->TabIndex = 9;
 			this->count_of_years_label->Text = L"0 years left";
 			// 
-			// button1
-			// 
-			this->button1->Location = System::Drawing::Point(837, 188);
-			this->button1->Margin = System::Windows::Forms::Padding(2);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(56, 19);
-			this->button1->TabIndex = 11;
-			this->button1->Text = L"Create";
-			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Visible = false;
-			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
-			// 
 			// panel1
 			// 
 			this->panel1->AutoScroll = true;
@@ -270,7 +253,7 @@ namespace PlanetSimulator {
 			this->panel1->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->panel1->Location = System::Drawing::Point(837, 240);
 			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(314, 466);
+			this->panel1->Size = System::Drawing::Size(367, 466);
 			this->panel1->TabIndex = 12;
 			// 
 			// trackBar1
@@ -278,7 +261,7 @@ namespace PlanetSimulator {
 			this->trackBar1->LargeChange = 1;
 			this->trackBar1->Location = System::Drawing::Point(949, 188);
 			this->trackBar1->Maximum = 100;
-			this->trackBar1->Minimum = 1;
+			this->trackBar1->Minimum = 10;
 			this->trackBar1->Name = L"trackBar1";
 			this->trackBar1->Size = System::Drawing::Size(173, 45);
 			this->trackBar1->TabIndex = 13;
@@ -293,17 +276,6 @@ namespace PlanetSimulator {
 			this->label1->Size = System::Drawing::Size(122, 13);
 			this->label1->TabIndex = 14;
 			this->label1->Text = L"size of the selected area";
-			// 
-			// button2
-			// 
-			this->button2->Location = System::Drawing::Point(837, 209);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(75, 23);
-			this->button2->TabIndex = 15;
-			this->button2->Text = L"Clear";
-			this->button2->UseVisualStyleBackColor = true;
-			this->button2->Visible = false;
-			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
 			// 
 			// countYearsSkipBox1
 			// 
@@ -327,14 +299,12 @@ namespace PlanetSimulator {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1172, 764);
+			this->ClientSize = System::Drawing::Size(1216, 764);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->countYearsSkipBox1);
-			this->Controls->Add(this->button2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->trackBar1);
 			this->Controls->Add(this->panel1);
-			this->Controls->Add(this->button1);
 			this->Controls->Add(this->count_of_years_label);
 			this->Controls->Add(this->groupBoxOfTypeOfImage);
 			this->Controls->Add(this->redraw_button);
@@ -361,6 +331,7 @@ namespace PlanetSimulator {
 		int size_of_area;
 		int x1, y1, x2, y2; //left top and right lower corners of selected area
 
+	
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
 		//is_free = true;
 		is_running = false;
@@ -369,135 +340,30 @@ namespace PlanetSimulator {
 		y1 = 0;
 		x2 = map_box->Width -1;
 		y2 = map_box->Height -1;
-		years_to_skip = 10;
+		years_to_skip = 1;
 		want_to_draw = false;
 	}
 
-	public: System::Void draw_image() {
-		
-		if (my_geomap == nullptr)
-			return;
-
-		//while (!is_free) Sleep(1);
-		//is_free = false;
-		want_to_draw = true;
-		my_geomap_mutex.lock();
-
-		delete map_box->Image;
-		if (platesRadioButton->Checked) {
-			if (bitmap_of_plates != nullptr)
-				delete bitmap_of_plates;
-			bitmap_of_plates = my_geomap->create_bitmap_of_plates();
-			if (current_bitmap != nullptr)
-				delete current_bitmap;
-			current_bitmap = gcnew Bitmap(bitmap_of_plates);
-		}
-		if (altitudeRadioButton->Checked) {
-			if (bitmap_of_plates != nullptr)
-				delete bitmap_of_height;
-			bitmap_of_height = my_geomap->create_bitmap_of_height();
-			if (current_bitmap != nullptr)
-				delete current_bitmap;
-			current_bitmap = gcnew Bitmap(bitmap_of_height);
-		}
-		map_box->Image = current_bitmap;
-		count_of_years_label->Text = my_geomap->get_years().ToString() + " years left";
-
-		want_to_draw = false;
-		my_geomap_mutex.unlock();
-		//is_free = true;
+	//buttons clicks
+	private: System::Void platesRadioButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+		draw_image();
 	}
 
-	private: System::Void clear_panel() {
-		panel1->Controls->Clear();
-		SolidBrush^ solidBrush = gcnew SolidBrush(
-			Color::FromArgb(255, 255, 255, 255));
-		Graphics^ g = panel1->CreateGraphics();
-		g->FillRectangle(solidBrush, 1, 1, panel1->Width, panel1->Height);
-		delete solidBrush, g;
-	}
-
-	private: System::Void create_record(int number, double min, double max, double local_min, double local_max) {
-		Graphics^ g = panel1->CreateGraphics();
-		int size_of_grad = 70;
-
-		LinearGradientBrush^ lgb = gcnew LinearGradientBrush(
-			Point(10, 0),
-			Point(10 + size_of_grad, 0),
-			my_geomap->get_altitude_color(local_min),
-			my_geomap->get_altitude_color(local_max)
-		);
-		
-		Label^ lb = gcnew Label();
-		lb->Text = "[" + local_min.ToString() + "; " + local_max.ToString() + "]";
-		lb->AutoSize = true;
-		if (number < 5) {
-			g->FillRectangle(lgb, 10, 10 + number * (size_of_grad + 10), size_of_grad, size_of_grad);
-			lb->Location = Point(size_of_grad + 20, 30 + number * (size_of_grad + 10));
-		}
-		else {
-			delete lgb;
-			lgb = gcnew LinearGradientBrush(
-				Point(size_of_grad + 100, 0),
-				Point(2 * size_of_grad + 100, 0),
-				my_geomap->get_altitude_color(local_min),
-				my_geomap->get_altitude_color(local_max)
-			);
-			g->FillRectangle(lgb, size_of_grad + 100, 10 + (number - 5) * (size_of_grad + 10), size_of_grad, size_of_grad);
-			lb->Location = Point(2 * size_of_grad + 110, 30 + (number - 5) * (size_of_grad + 10));
-		}
-		
-		panel1->Controls->Add(lb);
-		delete g, lgb;
-	}
-
-	private: System::Void show_info() {
-		int map_width, map_height;
-		map_width = my_geomap->get_width();
-		map_height = my_geomap->get_height();
-		double** altitude_map = my_geomap->get_copy_altitude_map();
-		int arr_size = (x2 - x1 + 1) * (y2 - y1 + 1);
-		double* list_of_altitude = new double[arr_size];
-
-		for (int i = x1; i <= x2; i++)
-			for (int j = y1; j <= y2; j++) {
-				list_of_altitude[(i - x1) * (y2 - y1 + 1) + (j - y1)] = altitude_map[i][j];
-			}
-
-		for (int i = 0; i < arr_size - 1; i++)
-			for (int j = 0; j < arr_size - i - 1; j++)
-				if (list_of_altitude[j] > list_of_altitude[j + 1]) {
-					double x = list_of_altitude[j];
-					list_of_altitude[j] = list_of_altitude[j + 1];
-					list_of_altitude[j + 1] = x;
-				}
-		double k = 0;
-		for (int i = 0; i < 10; i++) {
-			double min = list_of_altitude[(int)k];
-			double max = list_of_altitude[(int)(k + arr_size / 10.0) - 1];
-
-			k += arr_size / 10.0;
-			create_record(i, my_geomap->get_min_altitude(), my_geomap->get_max_altitude(), min, max);
-		}
-		
-
-		for (int i = 0; i < map_width; i++)
-			delete[] altitude_map[i];
-		delete[] altitude_map;
-		delete[] list_of_altitude;
+	private: System::Void altitudeRadioButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+		draw_image();
 	}
 
 	private: System::Void GenerateButton_Click(System::Object^ sender, System::EventArgs^ e) {
-		
+
 		if (is_running) return;
-		int new_count_of_plates = 10;
+		int new_count_of_plates = 15;
 		int new_width = map_box->Size.Width;
 		int new_height = map_box->Size.Height;
 
 		if (my_geomap != nullptr)
 			delete my_geomap;
 
-		my_geomap = new geomap(new_width, new_height, new_count_of_plates, 0.3, 1);
+		my_geomap = new geomap(new_width, new_height, new_count_of_plates, 0.1, 1.2);
 
 		draw_image();
 	}
@@ -508,37 +374,46 @@ namespace PlanetSimulator {
 
 		draw_image();
 	}
-	   
-	/*private: System::Void StartButton_Click(System::Object^ sender, System::EventArgs^ e) {
+
+	private: System::Void skip_Button_Click(System::Object^ sender, System::EventArgs^ e) {
 		if (my_geomap == nullptr || is_running) return;
-		is_running = true;
-		is_free = true;
-		runningThread = CreateThread(NULL, 0, thread_func, NULL, 0, NULL);
-	}*/
+		String^ str = countYearsSkipBox1->Text;
+		bool is_int = true;
+		for (int i = 0; i < str->Length; i++) {
+			if (str[i] < '0' || str[i] > '9')
+				is_int = false;
+		}
+		if (is_int && str->Length < 9)
+		{
+			years_to_skip = Convert::ToInt32(str);
+			is_running = true;
+			GenerateButton->Enabled = false;
+			OneStepButton->Enabled = false;
+			SkipButton->Enabled = false;
+			runningThread = CreateThread(NULL, 0, thread_func, NULL, 0, NULL);
+		}
+	}
 
 	private: System::Void StopButton_Click(System::Object^ sender, System::EventArgs^ e) {
 		is_running = false;
 		CloseHandle(runningThread);
-		//is_free = true;
+		GenerateButton->Enabled = true;
+		OneStepButton->Enabled = true;
+		SkipButton->Enabled = true;
+		draw_image();
 	}
 
 	private: System::Void redraw_button_Click(System::Object^ sender, System::EventArgs^ e) {
 		draw_image();
 	}
 
-	private: System::Void platesRadioButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
-		draw_image();
-	}
-
-	private: System::Void altitudeRadioButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
-		draw_image();
-	}
+	//other events --------------------------------------------------------------------------------------------------
 
 	private: System::Void map_box_MouseMove(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
 		if (map_box->Image == nullptr) return;
 
 		Bitmap^ new_bitmap = gcnew Bitmap(current_bitmap);
-		
+
 		int mouse_x = e->X;
 		int mouse_y = e->Y;
 
@@ -564,40 +439,13 @@ namespace PlanetSimulator {
 			if (i > 0 && j > 0 && i < map_box->Width && j < map_box->Height)
 				new_bitmap->SetPixel(i, j, Color::Black);
 		}
-	
+
 		map_box->Image = new_bitmap;
-		
-}
 
-	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
-		clear_panel();
-		//show_info();
-		LinearGradientBrush^ lgb = gcnew LinearGradientBrush(
-			Point(10, 0),
-			Point(60, 0),
-			Color::FromArgb(255, 0, 0),
-			Color::FromArgb(0, 0, 255)
-		);
-		Graphics^ g = panel1->CreateGraphics();
-
-		for (int i = 0; i < 7; i++) 
-			g->FillRectangle(lgb, 10, 10 + i * 60, 50, 50);
-
-		delete g, lgb;
-		/*for (int i = 0; i < 7; i++) {
-			Label^ lb = gcnew Label();
-			lb->Text = i.ToString();
-			lb->Location = Point(80, 30 + i * 60);
-			panel1->Controls->Add(lb);
-		}*/
 	}
 
 	private: System::Void trackBar1_Scroll(System::Object^ sender, System::EventArgs^ e) {
 		size_of_area = trackBar1->Value;
-	}
-
-	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
-		clear_panel();
 	}
 
 	private: System::Void map_box_MouseDown(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
@@ -645,26 +493,7 @@ namespace PlanetSimulator {
 			}
 
 			map_box->Image = current_bitmap;
-			clear_panel();
 			show_info();
-		}
-		
-	}
-	
-	private: System::Void skip_Button_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (my_geomap == nullptr || is_running) return;
-		String^ str = countYearsSkipBox1->Text;
-		bool is_int = true;
-		for (int i = 0; i < str->Length; i++) {
-			if (str[i] < '0' || str[i] > '9')
-				is_int = false;
-		}
-		if (is_int && str->Length < 9)
-		{
-			years_to_skip = Convert::ToInt32(str);
-			is_running = true;
-			//is_free = true;
-			runningThread = CreateThread(NULL, 0, thread_func, NULL, 0, NULL);
 		}
 
 	}
@@ -679,5 +508,131 @@ namespace PlanetSimulator {
 		if (is_int && str->Length < 9)
 			SkipButton->Text = "Skip " + str + " years";
 	}
+
+	//service procedures --------------------------------------------------------------------------------------------
+
+	private: System::Void draw_image() {
+		
+		if (my_geomap == nullptr)
+			return;
+
+		want_to_draw = true;
+		my_geomap_mutex.lock();
+
+		if (!is_running){
+			GenerateButton->Enabled = true;
+			OneStepButton->Enabled = true;
+			SkipButton->Enabled = true;
+		}
+
+		delete map_box->Image;
+		if (platesRadioButton->Checked) {
+			if (bitmap_of_plates != nullptr)
+				delete bitmap_of_plates;
+			bitmap_of_plates = my_geomap->create_bitmap_of_plates();
+			if (current_bitmap != nullptr)
+				delete current_bitmap;
+			current_bitmap = gcnew Bitmap(bitmap_of_plates);
+		}
+		if (altitudeRadioButton->Checked) {
+			if (bitmap_of_plates != nullptr)
+				delete bitmap_of_height;
+			bitmap_of_height = my_geomap->create_bitmap_of_height();
+			if (current_bitmap != nullptr)
+				delete current_bitmap;
+			current_bitmap = gcnew Bitmap(bitmap_of_height);
+		}
+		map_box->Image = current_bitmap;
+		count_of_years_label->Text = my_geomap->get_years().ToString() + " years left";
+
+		x1 = 1;
+		y1 = 1;
+		x2 = map_box->Width - 1;
+		y2 = map_box->Height - 1;
+
+		want_to_draw = false;
+		my_geomap_mutex.unlock();
+	}
+
+	private: System::Void clear_panel() {
+		panel1->Controls->Clear();
+		SolidBrush^ solidBrush = gcnew SolidBrush(
+			Color::FromArgb(255, 255, 255, 255));
+		Graphics^ g = panel1->CreateGraphics();
+		g->FillRectangle(solidBrush, 1, 1, panel1->Width, panel1->Height);
+		delete solidBrush, g;
+	}
+
+	private: System::Void create_record(int number, double min, double max, double local_min, double local_max) {
+		Graphics^ g = panel1->CreateGraphics();
+		int size_of_grad = 70;
+
+		LinearGradientBrush^ lgb = gcnew LinearGradientBrush(
+			Point(10, 0),
+			Point(10 + size_of_grad, 0),
+			my_geomap->get_altitude_color(local_min),
+			my_geomap->get_altitude_color(local_max)
+		);
+		
+		Label^ lb = gcnew Label();
+		lb->Text = "[" + local_min.ToString() + "; " + local_max.ToString() + "]";
+		lb->AutoSize = true;
+		if (number < 5) {
+			g->FillRectangle(lgb, 10, 10 + number * (size_of_grad + 10), size_of_grad, size_of_grad);
+			lb->Location = Point(size_of_grad + 20, 30 + number * (size_of_grad + 10));
+		}
+		else {
+			delete lgb;
+			lgb = gcnew LinearGradientBrush(
+				Point(size_of_grad + 120, 0),
+				Point(2 * size_of_grad + 120, 0),
+				my_geomap->get_altitude_color(local_min),
+				my_geomap->get_altitude_color(local_max)
+			);
+			g->FillRectangle(lgb, size_of_grad + 120, 10 + (number - 5) * (size_of_grad + 10), size_of_grad, size_of_grad);
+			lb->Location = Point(2 * size_of_grad + 130, 30 + (number - 5) * (size_of_grad + 10));
+		}
+		
+		panel1->Controls->Add(lb);
+		delete g, lgb;
+	}
+
+	private: System::Void show_info() {
+		clear_panel();
+		int map_width, map_height;
+		map_width = my_geomap->get_width();
+		map_height = my_geomap->get_height();
+		double** altitude_map = my_geomap->get_copy_altitude_map();
+		int arr_size = (x2 - x1 + 1) * (y2 - y1 + 1);
+		double* list_of_altitude = new double[arr_size];
+
+		for (int i = x1; i <= x2; i++)
+			for (int j = y1; j <= y2; j++) {
+				list_of_altitude[(i - x1) * (y2 - y1 + 1) + (j - y1)] = altitude_map[i][j];
+			}
+
+		for (int i = 0; i < arr_size - 1; i++)
+			for (int j = 0; j < arr_size - i - 1; j++)
+				if (list_of_altitude[j] > list_of_altitude[j + 1]) {
+					double x = list_of_altitude[j];
+					list_of_altitude[j] = list_of_altitude[j + 1];
+					list_of_altitude[j + 1] = x;
+				}
+		double k = 0;
+		for (int i = 0; i < 10; i++) {
+			double min = list_of_altitude[(int)k];
+			double max = list_of_altitude[(int)(k + arr_size / 10.0) - 1];
+
+			k += arr_size / 10.0;
+			create_record(i, my_geomap->get_min_altitude(), my_geomap->get_max_altitude(), min, max);
+		}
+
+		for (int i = 0; i < map_width; i++)
+			delete[] altitude_map[i];
+		delete[] altitude_map;
+		delete[] list_of_altitude;
+	}
+
+	
 };
 }

@@ -10,6 +10,7 @@ double distance_between_points(double x1, double y1, double x2, double y2) {
 }
 
 geomap::geomap(int new_width, int new_height, int new_count_of_plates, double speed, double level_of_unevenness) {
+	srand(time(0));
 	this->width = new_width;
 	this->height = new_height;
 	this->count_of_plates = new_count_of_plates;
@@ -33,9 +34,9 @@ geomap::geomap(int new_width, int new_height, int new_count_of_plates, double sp
 		double x, y, delta_x, delta_y, r;
 		x = rand() % (this->width - 1) + 1;
 		y = rand() % (this->height - 1) + 1;
-		delta_x = ((rand() + 1) % (int)(speed * 1000 * 2) * (rand() % 2 * 2 - 1)) / 100.0; 
-		delta_y = ((rand() + 1) % (int)(speed * 1000 * 2) * (rand() % 2 * 2 - 1)) / 100.0; 
-		r = (((rand() + 1) % 1000 - 500) / 1000.0 + 1) * sqrt(sum_area_plates / (3.14159 * count_of_plates));
+		delta_x = ((rand() % (int)(speed * 1000 * 2)) * (rand() % 2 * 2 - 1) + 1) / 100.0;
+		delta_y = ((rand() % (int)(speed * 1000 * 2)) * (rand() % 2 * 2 - 1) + 1) / 100.0;
+		r = ((rand() % 1000 - 500) / 1000.0 + 1) * sqrt(sum_area_plates / (3.14159 * count_of_plates));
 		plate current_plate{ x, y, delta_x, delta_y , r };
 		plates[i] = current_plate;
 	}
@@ -97,14 +98,14 @@ void geomap::change_altitude_map() {
 }
 
 void geomap::do_one_step() {
-	double g = 1;
+	double g = 100;
 	for (int i = 0; i < count_of_plates; i++) {
 		for (int j = 0; j < count_of_plates; j++) {
 			if (i == j) continue;
 			if (distance_between_points(plates[i].x, plates[i].y, plates[j].x, plates[j].y) > plates[i].r + plates[j].r) continue;
 			double repulsive_force = g / distance_between_points(plates[i].x, plates[i].y, plates[j].x, plates[j].y);
 			double speed = distance_between_points(plates[i].x, plates[i].y, plates[i].x + plates[i].delta_x, plates[i].y + plates[i].delta_y);
-			double resistance_force = speed / plates[i].r;
+			double resistance_force = speed * plates[i].r;
 			double multiplier = repulsive_force / resistance_force;
 
 			double a1, b1, c1, a2, b2, c2;
@@ -118,8 +119,10 @@ void geomap::do_one_step() {
 
 			plates[i].delta_x = plates[i].delta_x + multiplier * a2 * (plates[j].r * plates[j].r / (plates[i].r * plates[i].r));
 			plates[i].delta_y = plates[i].delta_y + multiplier * b2 * (plates[j].r * plates[j].r / (plates[i].r * plates[i].r));
-
-
+			if (abs(plates[i].delta_x) < min_speed) plates[i].delta_x = min_speed * (rand() % 2 * 2 - 1);
+			if (abs(plates[i].delta_x) > max_speed) plates[i].delta_x = max_speed * (plates[i].delta_x / abs(plates[i].delta_x));
+			if (abs(plates[i].delta_y) < min_speed) plates[i].delta_y = min_speed * (rand() % 2 * 2 - 1);
+			if (abs(plates[i].delta_y) > max_speed) plates[i].delta_y = max_speed * (plates[i].delta_y / abs(plates[i].delta_y));
 		}
 		double new_x, new_y;
 		new_x = plates[i].x + plates[i].delta_x;
@@ -139,7 +142,6 @@ void geomap::do_one_step() {
 
 		plates[i].x = new_x;
 		plates[i].y = new_y;
-
 	}
 	++years;
 	change_altitude_map();
@@ -159,13 +161,26 @@ double** geomap::get_copy_altitude_map() {
 
 System::Drawing::Color geomap::get_altitude_color(double altitude) {
 	
-	double multiplier = (abs(altitude - min_altitude) / (max_altitude - min_altitude));
+	//double multiplier = (abs(altitude - min_altitude) / (max_altitude - min_altitude)); //it's for only 1 layer
+	double multiplier;
+
+	if (altitude > 0)
+		multiplier = (abs(altitude - 0) / (max_altitude - 0));
+	else
+		multiplier = (abs(altitude - 0) / (0 - min_altitude));
 
 	if (multiplier <= 0 || multiplier > 1 || multiplier != multiplier)
 		multiplier = 0;
-	int curr_red = (int)(altitude_left_red + (altitude_right_red - altitude_left_red) * multiplier);
-	int curr_green = (int)(altitude_left_green + (altitude_right_green - altitude_left_green) * multiplier);
-	int curr_blue = (int)(altitude_left_blue + (altitude_right_blue - altitude_left_blue) * multiplier);
-
+	int curr_red, curr_green, curr_blue;
+	if (altitude > 0) {
+		 curr_red = (int)(pos_altitude_left_red + (pos_altitude_right_red - pos_altitude_left_red) * multiplier);
+		 curr_green = (int)(pos_altitude_left_green + (pos_altitude_right_green - pos_altitude_left_green) * multiplier);
+		 curr_blue = (int)(pos_altitude_left_blue + (pos_altitude_right_blue - pos_altitude_left_blue) * multiplier);
+	}
+	else {
+		 curr_red = (int)(neg_altitude_left_red + (neg_altitude_right_red - neg_altitude_left_red) * multiplier);
+		 curr_green = (int)(neg_altitude_left_green + (neg_altitude_right_green - neg_altitude_left_green) * multiplier);
+		 curr_blue = (int)(neg_altitude_left_blue + (neg_altitude_right_blue - neg_altitude_left_blue) * multiplier);
+	}
 	return System::Drawing::Color::FromArgb(curr_red, curr_green, curr_blue);
 }

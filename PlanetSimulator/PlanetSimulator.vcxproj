@@ -110,6 +110,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies />
+      <EntryPointSymbol>main</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -120,12 +121,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="imagineGenerator.cpp" />
     <ClCompile Include="lithospheric_plates.cpp" />
     <ClCompile Include="MyForm.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="imagineGenerator.h" />
     <ClInclude Include="lithospheric_plates.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>

@@ -16,7 +16,7 @@ private:
 
 	plate* plates;
 	double** altitude_map;
-	double min_altitude, max_altitude;
+	double min_altitude, max_altitude, max_speed = 2, min_speed = 0.1;
 	int width, height, count_of_plates;
 	unsigned long long years;
 	void change_altitude_map();
@@ -27,14 +27,22 @@ public:
 	const int altitude_right_red = 181;
 	const int altitude_right_green = 47;
 	const int altitude_right_blue = 14;*/
-	const int altitude_left_red = 0;
-	const int altitude_left_green = 255;
-	const int altitude_left_blue = 0;
-	const int altitude_right_red = 255;
-	const int altitude_right_green = 0;
-	const int altitude_right_blue = 0;
+	const int neg_altitude_left_red = 93;
+	const int neg_altitude_left_green = 210;
+	const int neg_altitude_left_blue = 249;
+	const int neg_altitude_right_red = 6;
+	const int neg_altitude_right_green = 6;
+	const int neg_altitude_right_blue = 50;
 	
-	geomap(int new_width, int new_height, int new_count_of_plates, double speed = 1, double level_of_unevenness = 0.5);
+
+	const int pos_altitude_left_red = 0;
+	const int pos_altitude_left_green = 255;
+	const int pos_altitude_left_blue = 0;
+	const int pos_altitude_right_red = 255;
+	const int pos_altitude_right_green = 0;
+	const int pos_altitude_right_blue = 0;
+	
+	geomap(int new_width, int new_height, int new_count_of_plates, double speed = 0.1, double level_of_unevenness = 1.2);
 	~geomap();
 	Bitmap^ create_bitmap_of_plates();
 	Bitmap^ create_bitmap_of_height();
