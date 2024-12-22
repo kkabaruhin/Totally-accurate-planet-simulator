@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "E:\\Git_reps\\Totally-accurate-planet-simulator\\PlanetSimulator\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4279A940-B898-4403-AA68-A2F61BABF07D}|PlanetSimulator.vcxproj|E:\\Git_reps\\Totally-accurate-planet-simulator\\PlanetSimulator\\MyForm.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}|Form",
-      "RelativeMoniker": "D:0:0:{4279A940-B898-4403-AA68-A2F61BABF07D}|PlanetSimulator.vcxproj|solutionrelative:MyForm.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4279A940-B898-4403-AA68-A2F61BABF07D}|PlanetSimulator.vcxproj|E:\\Git_reps\\Totally-accurate-planet-simulator\\PlanetSimulator\\MyForm.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{4279A940-B898-4403-AA68-A2F61BABF07D}|PlanetSimulator.vcxproj|solutionrelative:MyForm.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4279A940-B898-4403-AA68-A2F61BABF07D}|PlanetSimulator.vcxproj|E:\\Git_reps\\Totally-accurate-planet-simulator\\PlanetSimulator\\lithospheric_plates.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{4279A940-B898-4403-AA68-A2F61BABF07D}|PlanetSimulator.vcxproj|solutionrelative:lithospheric_plates.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4279A940-B898-4403-AA68-A2F61BABF07D}|PlanetSimulator.vcxproj|E:\\Git_reps\\Totally-accurate-planet-simulator\\PlanetSimulator\\MyForm.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}|Form",
+      "RelativeMoniker": "D:0:0:{4279A940-B898-4403-AA68-A2F61BABF07D}|PlanetSimulator.vcxproj|solutionrelative:MyForm.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4279A940-B898-4403-AA68-A2F61BABF07D}|PlanetSimulator.vcxproj|E:\\Git_reps\\Totally-accurate-planet-simulator\\PlanetSimulator\\MyForm.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -33,7 +33,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
@@ -60,7 +60,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "lithospheric_plates.h",
               "DocumentMoniker": "E:\\Git_reps\\Totally-accurate-planet-simulator\\PlanetSimulator\\lithospheric_plates.h",
               "RelativeDocumentMoniker": "lithospheric_plates.h",
@@ -73,13 +73,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "MyForm.h",
               "DocumentMoniker": "E:\\Git_reps\\Totally-accurate-planet-simulator\\PlanetSimulator\\MyForm.h",
               "RelativeDocumentMoniker": "MyForm.h",
-              "ToolTip": "E:\\Git_reps\\Totally-accurate-planet-simulator\\PlanetSimulator\\MyForm.h*",
-              "RelativeToolTip": "MyForm.h*",
-              "ViewState": "AgIAADsCAAAAAAAAAAAAAFACAAAtAAAAAAAAAA==",
+              "ToolTip": "E:\\Git_reps\\Totally-accurate-planet-simulator\\PlanetSimulator\\MyForm.h",
+              "RelativeToolTip": "MyForm.h",
+              "ViewState": "AgIAAEUBAAAAAAAAAAAAAGMBAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-11-28T08:12:13.483Z",
               "EditorCaption": ""
@@ -99,12 +99,12 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "MyForm.h [Design]",
               "DocumentMoniker": "E:\\Git_reps\\Totally-accurate-planet-simulator\\PlanetSimulator\\MyForm.h",
               "RelativeDocumentMoniker": "MyForm.h",
-              "ToolTip": "E:\\Git_reps\\Totally-accurate-planet-simulator\\PlanetSimulator\\MyForm.h [Design]*",
-              "RelativeToolTip": "MyForm.h [Design]*",
+              "ToolTip": "E:\\Git_reps\\Totally-accurate-planet-simulator\\PlanetSimulator\\MyForm.h [Design]",
+              "RelativeToolTip": "MyForm.h [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-12-12T18:42:08.706Z",
               "EditorCaption": " [Design]"

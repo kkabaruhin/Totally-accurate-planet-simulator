@@ -1,0 +1,2 @@
+This is not a totally accurate planet simulator. 
+It is a C++ project using Windows Forms. The application simulates the behavior of lithospheric plates and how the landscape changes because of it in a simplified form. The initial state of the plates is generated randomly so multiple launches of the program or multiple clicks of the Generate button will give different results. If you really want to see fundamentally different results you can change some parameters in the GenerateButton_Click function in the MyForm.h file.
